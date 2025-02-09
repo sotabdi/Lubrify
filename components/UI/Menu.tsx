@@ -138,52 +138,60 @@ const Menu = () => {
         {/* main menu */}
         <div>
           <ul
-            className={`flex flex-col px-10 gap-y-[10px]  ease-in-out duration-200 ${
-              subopen
-                ? "-translate-x-6 opacity-0 absolute"
-                : "translate-x-0 opacity-100"
-            }`}
+            className={`flex flex-col px-10 gap-y-[10px]  ease-in-out duration-200`}
           >
-            {menuItem?.map((item) =>
-              item.subItem ? (
-                <li key={item.id}>
-                  <p
-                    onClick={() => handleSubOpen(item.id)}
-                    className="flex items-center gap-x-2.5 text-[28px] text-white font-bold cursor-pointer uppercase"
+            {menuItem?.map((item) => (
+              <li key={item.id}>
+                {item.subItem ? (
+                  <div
+                    key={item.id}
+                    className={`ease-in-out duration-200 cursor-pointer uppercase  ${
+                      subopen
+                        ? "-translate-x-6 opacity-0 absolute "
+                        : "translate-x-0 opacity-100"
+                    }`}
                   >
-                    {item.item}
-                    <span className="text-[18px]">
-                      <FaArrowRight />
-                    </span>
-                  </p>
-                </li>
-              ) : (
-                <li key={item.id}>
-                  <Link
-                    className="text-[28px] text-white font-bold cursor-pointer uppercase"
-                    href={`${item.link}`}
+                    <p
+                      onClick={() => handleSubOpen(item.id)}
+                      className={`flex items-center gap-x-2.5 text-[28px] text-white font-bold`}
+                    >
+                      {item.item}
+                      <span className="text-[18px]">
+                        <FaArrowRight />
+                      </span>
+                    </p>
+                  </div>
+                ) : (
+                  <div
+                    key={item.id}
+                    className={`ease-in-out duration-200 cursor-pointer uppercase  ${
+                      subopen
+                        ? "-translate-x-6 opacity-0 absolute"
+                        : "translate-x-0 opacity-100"
+                    }`}
                   >
-                    {item.item}
-                  </Link>
-                </li>
-              )
-            )}
-          </ul>
-          <ul
-            className={`flex flex-col px-10 gap-y-[10px] ease-in-out  ${
-              subopen
-                ? "translate-x-0 opacity-100 duration-200 delay-100"
-                : "translate-x-6 opacity-0 absolute "
-            } `}
-          >
-            <li>
-              <Link
-                className="text-[28px] text-white font-bold cursor-pointer uppercase"
-                href={`#`}
-              >
-                test
-              </Link>
-            </li>
+                    <Link
+                      className="text-[28px] text-white font-bold"
+                      href={`${item.link}`}
+                    >
+                      {item.item}
+                    </Link>
+                  </div>
+                )}
+                {item.subItem?.map((subItem) => (
+                  <div
+                    key={subItem.id}
+                    className={`flex flex-col text-white ease-in-out ${
+                      subopen
+                        ? "translate-x-0 opacity-100 duration-200"
+                        : "translate-x-6 opacity-0 absolute"
+                    } `}
+                  >
+                    <Link href={`${subItem.link}`}>{subItem.item}</Link>
+                  </div>
+                ))}
+              </li>
+            ))}
           </ul>
         </div>
         {/* main menu */}
