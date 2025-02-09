@@ -12,6 +12,7 @@ const Menu = () => {
     link?: string;
     subItem?: MenuList[];
   };
+
   const [menuopen, setmenuopen] = useState<boolean>(false);
   const [subopen, setsubopen] = useState<boolean>(false);
   const [subItem, setsubItem] = useState<Array<MenuList>>([]);
@@ -76,13 +77,13 @@ const Menu = () => {
     if (item.subItem) {
       setsubItem([...item.subItem]);
     } else {
-      setsubItem([]); // If no subItem exists, reset to an empty array
+      setsubItem([]); // Reset subItem if no subItem exists
     }
   };
 
   return (
     <div>
-      {/* colapsable menu button */}
+      {/* collapsible menu button */}
       <div className="flex justify-start">
         <div
           className="bg-amber-200 flex gap-x-2.5 items-center cursor-pointer"
@@ -99,7 +100,7 @@ const Menu = () => {
           </span>
         </div>
       </div>
-      {/* colapsable menu button */}
+      {/* collapsible menu button */}
 
       {/* dropdown menu */}
       <div
@@ -114,10 +115,10 @@ const Menu = () => {
         >
           {subopen && (
             <span
-              className="text-white"
+              className="text-white cursor-pointer"
               onClick={() => setsubopen((prev) => !prev)}
             >
-              back
+              Back
             </span>
           )}
           <div
@@ -133,8 +134,7 @@ const Menu = () => {
               alt="Close Icon"
               width={16}
               height={16}
-              className="rotate-45
-               -translate(50,50)"
+              className="rotate-45"
             />
             <span className="font-poppins font-black uppercase text-[12px] text-white">
               Menu
@@ -144,7 +144,7 @@ const Menu = () => {
         {/* main menu */}
         <div>
           <ul
-            className={`flex flex-col px-10 gap-y-[10px]  ease-in-out duration-200 ${
+            className={`flex flex-col px-10 gap-y-[10px] ease-in-out duration-200 ${
               subopen
                 ? "-translate-x-6 opacity-0 absolute"
                 : "translate-x-0 opacity-100"
@@ -179,9 +179,9 @@ const Menu = () => {
           <ul
             className={`flex flex-col px-10 gap-y-[10px] ease-in-out ${
               subopen
-                ? "translate-x-0 opacity-100 duration-200 "
+                ? "translate-x-0 opacity-100 duration-200"
                 : "translate-x-6 opacity-0 absolute"
-            } `}
+            }`}
           >
             {subItem.map((item) => (
               <li key={item.id}>
