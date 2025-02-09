@@ -6,15 +6,17 @@ import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 
 const Menu = () => {
-  const [menuopen, setmenuopen] = useState<boolean>(false);
-  const [subopen, setsubopen] = useState<boolean>(false);
-
   type MenuList = {
     id: number;
     item: string;
     link?: string;
     subItem?: MenuList[];
   };
+
+  const [menuopen, setmenuopen] = useState<boolean>(false);
+  const [subopen, setsubopen] = useState<boolean>(false);
+  const [subItem, setsubItem] = useState<Array<MenuList>>([]);
+
   const menuItem: MenuList[] = [
     {
       id: 1,
@@ -70,13 +72,18 @@ const Menu = () => {
     },
   ];
 
-  const handleSubOpen = (id: number): void => {
+  const handleSubOpen = (item: MenuList): void => {
     setsubopen((prev) => !prev);
-    console.log(id);
+    if (item.subItem) {
+      setsubItem([...item.subItem]);
+    } else {
+      setsubItem([]); // Reset subItem if no subItem exists
+    }
   };
+
   return (
     <div>
-      {/* colapsable menu button */}
+      {/* collapsible menu button */}
       <div className="flex justify-start">
         <div
           className="bg-amber-200 flex gap-x-2.5 items-center cursor-pointer"
@@ -93,7 +100,7 @@ const Menu = () => {
           </span>
         </div>
       </div>
-      {/* colapsable menu button */}
+      {/* collapsible menu button */}
 
       {/* dropdown menu */}
       <div
@@ -108,10 +115,10 @@ const Menu = () => {
         >
           {subopen && (
             <span
-              className="text-white"
+              className="text-white cursor-pointer"
               onClick={() => setsubopen((prev) => !prev)}
             >
-              back
+              Back
             </span>
           )}
           <div
@@ -127,8 +134,7 @@ const Menu = () => {
               alt="Close Icon"
               width={16}
               height={16}
-              className="rotate-45
-               -translate(50,50)"
+              className="rotate-45"
             />
             <span className="font-poppins font-black uppercase text-[12px] text-white">
               Menu
@@ -138,74 +144,59 @@ const Menu = () => {
         {/* main menu */}
         <div>
           <ul
-            className={`flex flex-col px-10 gap-y-[10px]  ease-in-out duration-200 relative`}
+            className={`flex flex-col px-10 gap-y-[10px] ease-in-out duration-200 ${
+              subopen
+                ? "-translate-x-6 opacity-0 absolute"
+                : "translate-x-0 opacity-100"
+            }`}
           >
-            {menuItem?.map((item) => (
+            {menuItem?.map((item) =>
+              item.subItem ? (
+                <li key={item.id}>
+                  <p
+                    onClick={() => handleSubOpen(item)}
+                    className="flex items-center gap-x-2.5 text-[28px] text-white font-bold cursor-pointer uppercase"
+                  >
+                    {item.item}
+                    <span className="text-[18px]">
+                      <FaArrowRight />
+                    </span>
+                  </p>
+                </li>
+              ) : (
+                <li key={item.id}>
+                  <Link
+                    className="text-[28px] text-white font-bold cursor-pointer uppercase"
+                    href={`${item.link}`}
+                  >
+                    {item.item}
+                  </Link>
+                </li>
+              )
+            )}
+          </ul>
+          {/* submenu */}
+          <ul
+            className={`flex flex-col px-10 gap-y-[10px] ease-in-out ${
+              subopen
+                ? "translate-x-0 opacity-100 duration-200"
+                : "translate-x-6 opacity-0 absolute"
+            }`}
+          >
+            {subItem.map((item) => (
               <li key={item.id}>
-                {item.subItem ? (
-                  <div
-                    key={item.id}
-                    className={`ease-in-out duration-200 cursor-pointer uppercase  ${
-                      subopen
-                        ? "-translate-x-6 opacity-0 absolute "
-                        : "translate-x-0 opacity-100"
-                    }`}
-                  >
-                    <p
-                      onClick={() => handleSubOpen(item.id)}
-                      className={`flex items-center gap-x-2.5 text-[28px] text-white font-bold`}
-                    >
-                      {item.item}
-                      <span className="text-[18px]">
-                        <FaArrowRight />
-                      </span>
-                    </p>
-                  </div>
-                ) : (
-                  <div
-                    key={item.id}
-                    className={`ease-in-out duration-200 cursor-pointer uppercase  ${
-                      subopen
-                        ? "-translate-x-6 opacity-0 absolute"
-                        : "translate-x-0 opacity-100"
-                    }`}
-                  >
-                    <Link
-                      className="text-[28px] text-white font-bold"
-                      href={`${item.link}`}
-                    >
-                      {item.item}
-                    </Link>
-                  </div>
-                )}
-                <div
-                  className={`absolute top-0 left-[100%] bg-primaryBlue w-full h-full ${
-                    subopen
-                      ? "translate-x-0 opacity-100 left-[100%] duration-200"
-                      : "translate-x-6 opacity-0 absolute"
-                  }`}
+                <Link
+                  className="text-[28px] text-white font-bold cursor-pointer uppercase"
+                  href={`#`}
                 >
-                  {item.subItem?.map((subItem) => (
-                    <div
-                      key={subItem.id}
-                      className={`flex flex-col text-white ease-in-out ${
-                        subopen
-                          ? "translate-x-0 opacity-100 duration-200"
-                          : "translate-x-6 opacity-0 absolute"
-                      } `}
-                    >
-                      <Link href={`${subItem.link}`}>{subItem.item}</Link>
-                    </div>
-                  ))}
-                </div>
+                  {item.item}
+                </Link>
               </li>
             ))}
           </ul>
+          {/* submenu */}
         </div>
         {/* main menu */}
-
-        {/* submenu */}
-        {/* submenu */}
       </div>
       {/* dropdown menu */}
     </div>
