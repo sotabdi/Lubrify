@@ -138,7 +138,7 @@ const Menu = () => {
         {/* main menu */}
         <div>
           <ul
-            className={`flex flex-col px-10 gap-y-[10px]  ease-in-out duration-200`}
+            className={`flex flex-col px-10 gap-y-[10px]  ease-in-out duration-200 relative`}
           >
             {menuItem?.map((item) => (
               <li key={item.id}>
@@ -178,18 +178,26 @@ const Menu = () => {
                     </Link>
                   </div>
                 )}
-                {item.subItem?.map((subItem) => (
-                  <div
-                    key={subItem.id}
-                    className={`flex flex-col text-white ease-in-out ${
-                      subopen
-                        ? "translate-x-0 opacity-100 duration-200"
-                        : "translate-x-6 opacity-0 absolute"
-                    } `}
-                  >
-                    <Link href={`${subItem.link}`}>{subItem.item}</Link>
-                  </div>
-                ))}
+                <div
+                  className={`absolute top-0 left-[100%] bg-primaryBlue w-full h-full ${
+                    subopen
+                      ? "translate-x-0 opacity-100 left-[100%] duration-200"
+                      : "translate-x-6 opacity-0 absolute"
+                  }`}
+                >
+                  {item.subItem?.map((subItem) => (
+                    <div
+                      key={subItem.id}
+                      className={`flex flex-col text-white ease-in-out ${
+                        subopen
+                          ? "translate-x-0 opacity-100 duration-200"
+                          : "translate-x-6 opacity-0 absolute"
+                      } `}
+                    >
+                      <Link href={`${subItem.link}`}>{subItem.item}</Link>
+                    </div>
+                  ))}
+                </div>
               </li>
             ))}
           </ul>
@@ -197,7 +205,6 @@ const Menu = () => {
         {/* main menu */}
 
         {/* submenu */}
-        <div></div>
         {/* submenu */}
       </div>
       {/* dropdown menu */}
