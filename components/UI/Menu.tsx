@@ -6,15 +6,16 @@ import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 
 const Menu = () => {
-  const [menuopen, setmenuopen] = useState<boolean>(false);
-  const [subopen, setsubopen] = useState<boolean>(false);
-
   type MenuList = {
     id: number;
     item: string;
     link?: string;
     subItem?: MenuList[];
   };
+  const [menuopen, setmenuopen] = useState<boolean>(false);
+  const [subopen, setsubopen] = useState<boolean>(false);
+  const [subItem, setsubItem] = useState<Array<MenuList>>([]);
+
   const menuItem: MenuList[] = [
     {
       id: 1,
@@ -70,10 +71,15 @@ const Menu = () => {
     },
   ];
 
-  const handleSubOpen = (id: number): void => {
+  const handleSubOpen = (item: MenuList): void => {
     setsubopen((prev) => !prev);
-    console.log(id);
+    if (item.subItem) {
+      setsubItem([...item.subItem]);
+    } else {
+      setsubItem([]); // If no subItem exists, reset to an empty array
+    }
   };
+
   return (
     <div>
       {/* colapsable menu button */}
@@ -148,7 +154,7 @@ const Menu = () => {
               item.subItem ? (
                 <li key={item.id}>
                   <p
-                    onClick={() => handleSubOpen(item.id)}
+                    onClick={() => handleSubOpen(item)}
                     className="flex items-center gap-x-2.5 text-[28px] text-white font-bold cursor-pointer uppercase"
                   >
                     {item.item}
@@ -169,28 +175,28 @@ const Menu = () => {
               )
             )}
           </ul>
+          {/* submenu */}
           <ul
-            className={`flex flex-col px-10 gap-y-[10px] ease-in-out  ${
+            className={`flex flex-col px-10 gap-y-[10px] ease-in-out ${
               subopen
-                ? "translate-x-0 opacity-100 duration-200 delay-100"
-                : "translate-x-6 opacity-0 absolute "
+                ? "translate-x-0 opacity-100 duration-200 "
+                : "translate-x-6 opacity-0 absolute"
             } `}
           >
-            <li>
-              <Link
-                className="text-[28px] text-white font-bold cursor-pointer uppercase"
-                href={`#`}
-              >
-                test
-              </Link>
-            </li>
+            {subItem.map((item) => (
+              <li key={item.id}>
+                <Link
+                  className="text-[28px] text-white font-bold cursor-pointer uppercase"
+                  href={`#`}
+                >
+                  {item.item}
+                </Link>
+              </li>
+            ))}
           </ul>
+          {/* submenu */}
         </div>
         {/* main menu */}
-
-        {/* submenu */}
-        <div></div>
-        {/* submenu */}
       </div>
       {/* dropdown menu */}
     </div>
