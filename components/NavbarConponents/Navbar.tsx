@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import MenuIcon from "../UI/MenuIcon";
 import Menu from "./Menu";
-import MenuIcon from "./MenuIcon";
 
 const Navbar = () => {
   return (

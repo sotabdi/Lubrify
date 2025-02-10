@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaFacebook } from "react-icons/fa";
 
 const Menu = () => {
   type MenuList = {
@@ -21,7 +21,7 @@ const Menu = () => {
     {
       id: 1,
       item: "Home",
-      link: "/home",
+      link: "/",
     },
     {
       id: 2,
@@ -57,16 +57,38 @@ const Menu = () => {
     },
     {
       id: 8,
+      item: "Brands",
+      link: "/about",
+      subItem: [
+        {
+          id: 9,
+          item: "Motul",
+          link: "/about",
+        },
+        {
+          id: 10,
+          item: "Liqui Moly",
+          link: "/about",
+        },
+        {
+          id: 11,
+          item: "Mobil",
+          link: "/about",
+        },
+      ],
+    },
+    {
+      id: 12,
       item: "About Us",
       link: "/about",
     },
     {
-      id: 9,
+      id: 13,
       item: "Contact",
       link: "/contact",
     },
     {
-      id: 10,
+      id: 14,
       item: "Faq",
       link: "/Faq",
     },
@@ -86,7 +108,7 @@ const Menu = () => {
       {/* collapsible menu button */}
       <div className="flex justify-start">
         <div
-          className="bg-amber-200 flex gap-x-2.5 items-center cursor-pointer"
+          className="flex gap-x-2.5 items-center cursor-pointer"
           onClick={() => setmenuopen((prev) => !prev)}
         >
           <Image
@@ -104,7 +126,7 @@ const Menu = () => {
 
       {/* dropdown menu */}
       <div
-        className={`absolute top-0 left-0 w-full flex flex-col gap-y-1.5 bg-primaryBlue px-[2.5%] overflow-hidden delay-150 transition-[height] duration-500 ease-in-expo z-50 ${
+        className={`absolute top-0 left-0 w-full flex flex-col gap-y-1.5 bg-primaryBlue px-[2.5%] overflow-hidden  transition-[height] duration-500 ease-in-expo z-50 ${
           menuopen ? "h-[100dvh]" : "h-0"
         }`}
       >
@@ -118,7 +140,7 @@ const Menu = () => {
               className="text-white cursor-pointer"
               onClick={() => setsubopen((prev) => !prev)}
             >
-              Back
+              Back Icon
             </span>
           )}
           <div
@@ -142,61 +164,95 @@ const Menu = () => {
           </div>
         </div>
         {/* main menu */}
-        <div>
-          <ul
-            className={`flex flex-col px-10 gap-y-[10px] ease-in-out duration-200 ${
-              subopen
-                ? "-translate-x-6 opacity-0 absolute"
-                : "translate-x-0 opacity-100"
+        <div
+          className={`flex flex-col justify-between h-full w-full duration-150 ${
+            !menuopen
+              ? "-translate-y-2 opacity-0"
+              : "-translate-y-0 opacity-100"
+          }`}
+        >
+          <div
+            className={`px-10 flex justify-between ease-in transition-all delay-500 duration-300 ${
+              menuopen ? "opacity-100" : "opacity-0"
             }`}
           >
-            {menuItem?.map((item) =>
-              item.subItem ? (
-                <li key={item.id}>
-                  <p
-                    onClick={() => handleSubOpen(item)}
-                    className="flex items-center gap-x-2.5 text-[28px] text-white font-bold cursor-pointer uppercase"
+            <ul
+              className={`flex-shrink-0 w-[250px] flex flex-col gap-y-[15px] transition-all ease-in-out duration-300 z-10 ${
+                subopen
+                  ? "-translate-x-[100px] opacity-0 "
+                  : "translate-x-0 opacity-100"
+              }`}
+            >
+              {menuItem?.map((item) =>
+                item.subItem ? (
+                  <li key={item.id}>
+                    <p
+                      onClick={() => handleSubOpen(item)}
+                      className="flex items-center gap-x-2.5 text-[28px] text-white font-bold cursor-pointer uppercase active:text-primaryYellow hover:text-primaryYellow transition-all ease-in-out duration-150"
+                    >
+                      {item.item}
+                      <span className="text-[18px]">
+                        <FaArrowRight />
+                      </span>
+                    </p>
+                  </li>
+                ) : (
+                  <li
+                    key={item.id}
+                    onClick={() => setmenuopen((prev) => !prev)}
                   >
-                    {item.item}
-                    <span className="text-[18px]">
-                      <FaArrowRight />
-                    </span>
-                  </p>
-                </li>
-              ) : (
+                    <Link
+                      className="text-[28px] text-white font-bold cursor-pointer uppercase hover:text-primaryYellow transition-all ease-in-out duration-150 active:text-primaryYellow"
+                      href={`${item.link}`}
+                    >
+                      {item.item}
+                    </Link>
+                  </li>
+                )
+              )}
+            </ul>
+            {/* submenu */}
+            <ul
+              className={`flex-shrink-0  w-[250px] flex flex-col gap-y-[15px] transition-all ease-in-out duration-300 ${
+                subopen
+                  ? "-translate-x-[250px] opacity-100"
+                  : "-translate-x-[150px] opacity-0 "
+              }`}
+            >
+              {subItem.map((item) => (
                 <li key={item.id}>
                   <Link
-                    className="text-[28px] text-white font-bold cursor-pointer uppercase"
-                    href={`${item.link}`}
+                    className="text-[25px] text-white font-bold cursor-pointer uppercase"
+                    href={`#`}
                   >
                     {item.item}
                   </Link>
                 </li>
-              )
-            )}
-          </ul>
-          {/* submenu */}
-          <ul
-            className={`flex flex-col px-10 gap-y-[10px] ease-in-out ${
-              subopen
-                ? "translate-x-0 opacity-100 duration-200"
-                : "translate-x-6 opacity-0 absolute"
-            }`}
-          >
-            {subItem.map((item) => (
-              <li key={item.id}>
-                <Link
-                  className="text-[28px] text-white font-bold cursor-pointer uppercase"
-                  href={`#`}
-                >
-                  {item.item}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          {/* submenu */}
+              ))}
+            </ul>
+            {/* submenu */}
+          </div>
+          {/* main menu */}
+          <div className="px-10">
+            <div
+              className={`delay-600 duration-300 ease-in ${
+                menuopen ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <div className="text-white font-poppins font-semibold cursor-pointer hover:text-primaryYellow duration-150 transition-all">
+                <Link href={"#"}> SIGN UP</Link>
+              </div>
+              <div className="text-white py-4">
+                <div className="flex gap-x-2.5">
+                  <FaFacebook />
+                  <FaFacebook />
+                  <FaFacebook />
+                  <FaFacebook />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        {/* main menu */}
       </div>
       {/* dropdown menu */}
     </div>
