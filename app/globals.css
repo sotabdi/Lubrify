@@ -30,4 +30,5 @@
   --color-primaryBlue: #091220;
   --color-primaryYellow: #ffa500;
   --ease-in-expo: cubic-bezier(1, 0.23, 0, 0.99);
+  --global_max_width: 2560px;
 }

@@ -4,7 +4,7 @@ import MenuIcon from "./UI/MenuIcon";
 
 const Navbar = () => {
   return (
-    <div className="relative px-2.5 py-2.5 grid grid-cols-3 justify-center items-center bg-primaryBlue">
+    <div className="max-w-[2560px] mx-auto relative px-2.5 py-2.5 grid grid-cols-3 justify-center items-center bg-primaryBlue">
       <div>
         <Menu />
       </div>
